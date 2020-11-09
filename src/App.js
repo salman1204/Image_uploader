@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import './App.css'
 
-function App() {
+const App = () => {
+  let [file, setFile] = useState([]);
+  let [imgUrl, setImgUrl] = useState([]);
+
+  const uploadMultipleFiles = (e) => {
+    file = [e.target.files];
+    for (let i = 0; i < file[0].length; i++) {
+      imgUrl = [...imgUrl,(URL.createObjectURL(file[0][i]))];
+    }
+    setImgUrl(imgUrl);
+
+  };
+
+  const uploadFiles = (e) => {
+    e.preventDefault();
+    imgUrl = [];
+    setImgUrl(imgUrl)
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <form>
+      <div>
+        <input type="file" onChange={uploadMultipleFiles} multiple />
+      </div>
+      <button type="button" onClick={uploadFiles}>
+       Remove Image Preview
+      </button>
+      <div className="img-container">
+        {(imgUrl || []).map((url) => (
+          
+          <img src={url} alt="..." />
+         
+        ))}  
+      </div>
+    </form>
   );
-}
+};
 
 export default App;
