@@ -6,7 +6,9 @@ const App = () => {
   let [imgUrl, setImgUrl] = useState([]);
 
   const uploadMultipleFiles = (e) => {
-    file = [e.target.files];
+    file = [];
+    file = [...file,e.target.files];
+    setFile (file);
     for (let i = 0; i < file[0].length; i++) {
       imgUrl = [...imgUrl,(URL.createObjectURL(file[0][i]))];
     }
@@ -14,25 +16,22 @@ const App = () => {
 
   };
 
-  const uploadFiles = (e) => {
+  const deleteFiles = (e) => {
     e.preventDefault();
-    imgUrl = [];
+    imgUrl =[];
     setImgUrl(imgUrl)
   };
+
 
   return (
     <form>
       <div>
         <input type="file" onChange={uploadMultipleFiles} multiple />
       </div>
-      <button type="button" onClick={uploadFiles}>
-       Remove Image Preview
-      </button>
+      <button type="button" onClick={deleteFiles}>Remove Image Preview</button>
       <div className="img-container">
         {(imgUrl || []).map((url) => (
-          
           <img src={url} alt="..." />
-         
         ))}  
       </div>
     </form>
